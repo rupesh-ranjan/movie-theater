@@ -51,20 +51,31 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
+  const [movies, setMovies] = useState(tempMovieData);
+
   return (
     <>
-      <NavBar />
-      <Main />
+      <NavBar>
+        <NumResult movies={movies} />
+      </NavBar>
+      <Main>
+        <ListBox>
+          <MovieList movies={movies} />
+        </ListBox>
+        <WatchedBox />
+      </Main>
     </>
   );
 }
 
-function NavBar() {
+//#region Navbar
+
+function NavBar({ children }) {
   return (
     <nav className="nav-bar">
       <Logo />
       <Search />
-      <NumResult />
+      {children}
     </nav>
   );
 }
@@ -78,10 +89,10 @@ function Logo() {
   );
 }
 
-function NumResult() {
+function NumResult({ movies }) {
   return (
     <p className="num-results">
-      Found <strong>X</strong> results
+      Found <strong>{movies.length}</strong> results
     </p>
   );
 }
@@ -99,14 +110,9 @@ function Search() {
   );
 }
 
-function Main() {
-  return (
-    <main className="main">
-      <ListBox />
-      <WatchedBox />
-    </main>
-  );
-}
+//#endregion
+
+//#region Main
 
 function ToogleButton({ children, onClick }) {
   return (
@@ -116,7 +122,13 @@ function ToogleButton({ children, onClick }) {
   );
 }
 
-function ListBox() {
+function Main({ children }) {
+  return <main className="main">{children}</main>;
+}
+
+//#region MovieList
+
+function ListBox({ children }) {
   const [isOpen, setIsOpen] = useState(true);
   function handleClick() {
     setIsOpen((open) => !open);
@@ -125,14 +137,12 @@ function ListBox() {
   return (
     <div className="box">
       <ToogleButton onClick={handleClick}>{isOpen ? "–" : "+"}</ToogleButton>
-      {isOpen && <MovieList />}
+      {isOpen && children}
     </div>
   );
 }
 
-function MovieList() {
-  const [movies, setMovies] = useState(tempMovieData);
-
+function MovieList({ movies }) {
   return (
     <ul className="list">
       {movies?.map((movie) => (
@@ -157,6 +167,9 @@ function Movie({ movie }) {
   );
 }
 
+//#endregion
+
+//#region WatchedBox
 function WatchedBox() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [isOpen, setIsOpen] = useState(true);
@@ -239,3 +252,7 @@ function WatchedMovie({ movie }) {
     </li>
   );
 }
+
+//#endregion
+
+//#endregion
