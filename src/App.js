@@ -52,6 +52,7 @@ const average = (arr) =>
 
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
@@ -59,10 +60,13 @@ export default function App() {
         <NumResult movies={movies} />
       </NavBar>
       <Main>
-        <ListBox>
+        <Box>
           <MovieList movies={movies} />
-        </ListBox>
-        <WatchedBox />
+        </Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMoviesList watched={watched} />
+        </Box>
       </Main>
     </>
   );
@@ -122,13 +126,7 @@ function ToogleButton({ children, onClick }) {
   );
 }
 
-function Main({ children }) {
-  return <main className="main">{children}</main>;
-}
-
-//#region MovieList
-
-function ListBox({ children }) {
+function Box({ children }) {
   const [isOpen, setIsOpen] = useState(true);
   function handleClick() {
     setIsOpen((open) => !open);
@@ -141,6 +139,12 @@ function ListBox({ children }) {
     </div>
   );
 }
+
+function Main({ children }) {
+  return <main className="main">{children}</main>;
+}
+
+//#region MovieList
 
 function MovieList({ movies }) {
   return (
@@ -170,25 +174,6 @@ function Movie({ movie }) {
 //#endregion
 
 //#region WatchedBox
-function WatchedBox() {
-  const [watched, setWatched] = useState(tempWatchedData);
-  const [isOpen, setIsOpen] = useState(true);
-  function handleClick() {
-    setIsOpen((open) => !open);
-  }
-
-  return (
-    <div className="box">
-      <ToogleButton onClick={handleClick}>{isOpen ? "–" : "+"}</ToogleButton>
-      {isOpen && (
-        <>
-          <WatchedSummary watched={watched} />
-          <WatchedMoviesList watched={watched} />
-        </>
-      )}
-    </div>
-  );
-}
 
 function WatchedSummary({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
