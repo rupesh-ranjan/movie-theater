@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import StarRating from "./StarRating";
 import { Loader } from "./Loader";
 import { ErrorMessage } from "./ErrorMessage";
-import { KEY } from "./App";
+import { KEY } from "../App";
 
 //#region WatchedBox
 export function MovieDetails({

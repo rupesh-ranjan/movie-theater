@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Loader } from "./Loader";
-import { NavBar } from "./NavBar";
-import { Search } from "./Search";
-import { NumResult } from "./NumResult";
-import { Box } from "./Box";
-import { Main } from "./Main";
-import { MovieList } from "./MovieList";
-import { ErrorMessage } from "./ErrorMessage";
-import { MovieDetails } from "./MovieDetails";
-import { WatchedSummary } from "./WatchedSummary";
-import { WatchedMoviesList } from "./WatchedMoviesList";
+import { Loader } from "./components/Loader";
+import { NavBar } from "./components/NavBar";
+import { Search } from "./components/Search";
+import { NumResult } from "./components/NumResult";
+import { Box } from "./components/Box";
+import { Main } from "./components/Main";
+import { MovieList } from "./components/MovieList";
+import { ErrorMessage } from "./components/ErrorMessage";
+import { MovieDetails } from "./components/MovieDetails";
+import { WatchedSummary } from "./components/WatchedSummary";
+import { WatchedMoviesList } from "./components/WatchedMoviesList";
 
 // const tempMovieData = [
 //   {
