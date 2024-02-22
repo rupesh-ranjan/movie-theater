@@ -37,6 +37,7 @@ export default function StarRating({
     setRating(rating);
     onSetRating && onSetRating(rating);
   }
+
   return (
     <div style={containerStyle} className={className}>
       <div style={starContainerStyle}>
