@@ -66,7 +66,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("test");
+  const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
 
   useEffect(
@@ -91,7 +91,6 @@ export default function App() {
           setMovies(data.Search);
           setError("");
         } catch (err) {
-          console.log(err);
           if (err.name !== "AbortError") setError(err.message);
         } finally {
           setIsLoading(false);
@@ -102,6 +101,7 @@ export default function App() {
         setError("");
         return;
       }
+      handleCloseMovie();
       fetchMovie();
 
       return function () {
@@ -225,10 +225,24 @@ function MovieDeatils({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
       return function () {
         document.title = "Movie Theater";
-        console.log(`Clean Up effect for movie ${title}`);
       };
     },
     [title]
+  );
+
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+        }
+      }
+      document.addEventListener("keydown", callback);
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [onCloseMovie]
   );
 
   function handleAdd() {
