@@ -5,7 +5,7 @@ import { ErrorMessage } from "./ErrorMessage";
 import { KEY } from "./App";
 
 //#region WatchedBox
-export function MovieDeatils({
+export function MovieDetails({
   selectedId,
   onCloseMovie,
   onAddWatched,

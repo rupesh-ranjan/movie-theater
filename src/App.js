@@ -7,7 +7,7 @@ import { Box } from "./Box";
 import { Main } from "./Main";
 import { MovieList } from "./MovieList";
 import { ErrorMessage } from "./ErrorMessage";
-import { MovieDeatils } from "./MovieDeatils";
+import { MovieDetails } from "./MovieDetails";
 import { WatchedSummary } from "./WatchedSummary";
 import { WatchedMoviesList } from "./WatchedMoviesList";
 
@@ -146,7 +146,7 @@ export default function App() {
         </Box>
         <Box>
           {selectedId ? (
-            <MovieDeatils
+            <MovieDetails
               selectedId={selectedId}
               onCloseMovie={handleCloseMovie}
               onAddWatched={handleAddWatched}
