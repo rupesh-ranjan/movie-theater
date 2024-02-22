@@ -69,32 +69,18 @@ export default function App() {
   const [query, setQuery] = useState("test");
   const [selectedId, setSelectedId] = useState(null);
 
-  // useEffect(function () {
-  //   console.log("After initial render");
-  // }, []);
-
-  // useEffect(function () {
-  //   console.log("After every render");
-  // });
-
-  // console.log("During render");
-
-  // useEffect(
-  //   function () {
-  //     console.log("D");
-  //   },
-  //   [query]
-  // );
-
   useEffect(
     function () {
+      const controller = new AbortController();
+
       async function fetchMovie() {
         try {
           setIsLoading(true);
           setError("");
 
           const response = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
           );
           const data = await response.json();
 
@@ -103,8 +89,10 @@ export default function App() {
 
           if (data.Response === "False") throw new Error(data.Error);
           setMovies(data.Search);
+          setError("");
         } catch (err) {
-          setError(err.message);
+          console.log(err);
+          if (err.name !== "AbortError") setError(err.message);
         } finally {
           setIsLoading(false);
         }
@@ -115,6 +103,10 @@ export default function App() {
         return;
       }
       fetchMovie();
+
+      return function () {
+        controller.abort();
+      };
     },
     [query]
   );
@@ -224,6 +216,19 @@ function MovieDeatils({ selectedId, onCloseMovie, onAddWatched, watched }) {
       getMovieDetails();
     },
     [selectedId]
+  );
+
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title}`;
+
+      return function () {
+        document.title = "Movie Theater";
+        console.log(`Clean Up effect for movie ${title}`);
+      };
+    },
+    [title]
   );
 
   function handleAdd() {
